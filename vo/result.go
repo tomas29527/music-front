@@ -7,11 +7,10 @@ type Result struct {
 	Data   interface{} `json:"data"`
 }
 
-func NewResultSuccess(date interface{}) *Result {
+func NewResultSuccess() *Result {
 	r := &Result{
 		Sucess: true,
 		Code:   0,
-		Data:   date,
 	}
 	return r
 }

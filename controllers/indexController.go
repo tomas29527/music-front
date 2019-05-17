@@ -7,6 +7,7 @@ import (
 	"music-front/vo"
 )
 
+//首页
 type IndexController struct {
 	beego.Controller
 }
@@ -18,7 +19,8 @@ func (c *IndexController) BannerList() {
 		logs.Error("查询QueryBannerList出错:%v", err)
 		result = vo.NewResultFail("查询错误")
 	} else {
-		result = vo.NewResultSuccess(bannerList)
+		result = vo.NewResultSuccess()
+		result.Data = bannerList
 	}
 	c.Data["json"] = result
 	c.ServeJSON()
@@ -31,7 +33,8 @@ func (c *IndexController) RecommendList() {
 		logs.Error("查询QueryRecommendList出错:%v", err)
 		result = vo.NewResultFail("查询错误")
 	} else {
-		result = vo.NewResultSuccess(recommendList)
+		result = vo.NewResultSuccess()
+		result.Data = recommendList
 	}
 	c.Data["json"] = result
 	c.ServeJSON()
