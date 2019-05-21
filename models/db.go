@@ -1,6 +1,7 @@
 package models
 
 import (
+	"errors"
 	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
@@ -12,22 +13,24 @@ type Db struct {
 
 var mySqlDB *sqlx.DB
 
-func init() {
+func (d *Db) InitDb() error {
 	username := beego.AppConfig.String("prod::mysql.username")
 	password := beego.AppConfig.String("prod::mysql.password")
 	logs.Debug("===mysql username=:%s,password=:%s", username, password)
 	if username == "" || password == "" {
+		logs.Error("===================")
 		logs.Error("数据库初始化失败")
-		return
+		return errors.New("数据库初始化失败")
 	}
-	mysqlUrl := fmt.Sprintf("%s:%s@tcp(192.168.3.10:3306)/star_child?charset=utf8", username, password)
+	mysqlUrl := fmt.Sprintf("%s:%s@tcp(106.13.60.183:3306)/star_child?charset=utf8", username, password)
 	logs.Debug("===mysqlUrl is ==:%s", mysqlUrl)
 	db, err := sqlx.Open("mysql", mysqlUrl)
 	if err != nil {
 		logs.Error("数据库初始化失败:%v", err)
-		return
+		return errors.New("数据库初始化失败")
 	}
 	mySqlDB = db
+	return nil
 }
 
 func (d *Db) Close() {

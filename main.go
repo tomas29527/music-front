@@ -7,10 +7,15 @@ import (
 )
 
 func main() {
-	db := &models.Db{}
-	defer db.Close()
 	//日志设置
 	logSetting()
+
+	//初始化数据库
+	db := &models.Db{}
+
+	if err := db.InitDb() ;err!=nil {
+		return
+	}
 
 	beego.Run()
 }
